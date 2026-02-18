@@ -1,0 +1,28 @@
+# --- Genomic Data (CRITICAL: Do not upload 5GB+ to GitHub) ---
+data_raw/
+gdc_download_*/
+*.tsv
+*.csv
+*.txt
+*.manifest
+*.parquet
+!README.md
+
+# --- Python & ML ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+.ipynb_checkpoints/
+
+# --- Model Weights (Keep your SSM weights local) ---
+*.pt
+*.pth
+*.ckpt
+*.h5
+
+# --- OS Specific ---
+.DS_Store
+.thumbs
