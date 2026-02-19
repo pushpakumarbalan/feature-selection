@@ -100,4 +100,4 @@ dependencies:
       - typing-extensions==4.15.0
       - tzdata==2025.3
       - umap-learn==0.5.11
-prefix: /home/balan/.conda/envs/gene_ai
+prefix: /home/balan/.conda/envs/fs
