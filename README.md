@@ -1,6 +1,6 @@
 # Mamba SSM + LLM Reasoning for Gene Selection in BRCA
 
-##Summery:
+## Summery:
 
 Uses a Mamba (SSM) model trained on TCGA-BRCA RNA-seq data to identify disease-associated genes via gradient saliency, then applies an LLM (DeepSeek-R1) to reason over the candidates and provide biological interpretability.
 
