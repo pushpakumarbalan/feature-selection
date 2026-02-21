@@ -1,0 +1,26 @@
+[
+  {
+    "label": "B1: Top-5000 Variance (Baseline)",
+    "n_genes": 5000,
+    "accuracy": 0.8785,
+    "f1": 0.8941,
+    "auc": 0.903,
+    "report": "              precision    recall  f1-score   support\n\n      Normal       0.42      0.78      0.55        23\n       Tumor       0.98      0.89      0.93       224\n\n    accuracy                           0.88       247\n   macro avg       0.70      0.84      0.74       247\nweighted avg       0.92      0.88      0.89       247\n"
+  },
+  {
+    "label": "B2: Top-50 Mamba-Saliency",
+    "n_genes": 50,
+    "accuracy": 0.7247,
+    "f1": 0.7813,
+    "auc": 0.8315,
+    "report": "              precision    recall  f1-score   support\n\n      Normal       0.23      0.83      0.36        23\n       Tumor       0.98      0.71      0.82       224\n\n    accuracy                           0.72       247\n   macro avg       0.60      0.77      0.59       247\nweighted avg       0.91      0.72      0.78       247\n"
+  },
+  {
+    "label": "B3: 17 LLM-Reasoned (BRCA-Specific)",
+    "n_genes": 17,
+    "accuracy": 0.8907,
+    "f1": 0.9033,
+    "auc": 0.927,
+    "report": "              precision    recall  f1-score   support\n\n      Normal       0.45      0.78      0.57        23\n       Tumor       0.98      0.90      0.94       224\n\n    accuracy                           0.89       247\n   macro avg       0.71      0.84      0.75       247\nweighted avg       0.93      0.89      0.90       247\n"
+  }
+]
