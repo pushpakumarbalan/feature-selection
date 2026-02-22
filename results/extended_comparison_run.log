@@ -1,0 +1,44 @@
+Device: cuda
+
+=== Mamba B1: Top-5000 Variance (multi-seed) ===
+  seed=42 ... AUC=0.9127
+  seed=123 ... AUC=0.9239
+  seed=7 ... AUC=0.9470
+  seed=99 ... AUC=0.8703
+  seed=2024 ... AUC=0.9517
+
+=== Mamba B2: Top-50 Saliency (multi-seed) ===
+  seed=42 ... AUC=0.8853
+  seed=123 ... AUC=0.7853
+  seed=7 ... AUC=0.6275
+  seed=99 ... AUC=0.6319
+  seed=2024 ... AUC=0.8833
+
+=== Mamba B3: 17 LLM-Filtered (multi-seed) ===
+  seed=42 ... AUC=0.9193
+  seed=123 ... AUC=0.9474
+  seed=7 ... AUC=0.9257
+  seed=99 ... AUC=0.9078
+  seed=2024 ... AUC=0.9730
+
+=== LASSO LogReg C1: Top-5000 genes ===
+
+=== LASSO LogReg C2: Top-50 saliency genes ===
+
+=== LASSO LogReg C3: 17 LLM-filtered genes ===
+
+=== ElasticNet LogReg C4: 17 LLM-filtered genes ===
+
+===========================================================================
+Condition                                   Genes  AUC mean  AUC std
+---------------------------------------------------------------------------
+B1: Mamba Top-5000 Variance                  5000    0.9211 ±0.0292
+B2: Mamba Top-50 Saliency (no LLM)             50    0.7627 ±0.1144
+B3: Mamba + LLM CoT (ours)                     17    0.9346 ±0.0231
+C1: LASSO LogReg Top-5000 Variance           5000    0.9995 ±0.0006
+C2: LASSO LogReg Top-50 Saliency               50    0.9978 ±0.0008
+C3: LASSO LogReg 17 LLM-Filtered               17    0.9751 ±0.0074
+C4: ElasticNet LogReg 17 LLM-Filtered          17    0.9760 ±0.0072
+
+Saved to /data4t/projects/fs/results/extended_comparison.json
+

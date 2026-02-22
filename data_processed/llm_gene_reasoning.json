@@ -71,9 +71,523 @@
     "TBC1D9",
     "RHOB"
   ],
-  "per_gene_reasoning": {},
+  "per_gene_reasoning": {
+    "RHEX": {
+      "rationale": "Notable in the Notch pathway, overexpressed in cancers; relevant.",
+      "selected": true
+    },
+    "BEX3": {
+      "rationale": "Part of beta-catenin destruction complex, implicated in Wnt signaling and breast cancer; relevant.",
+      "selected": true
+    },
+    "CAPN13": {
+      "rationale": "Involved in TGF-beta signaling, associated with breast cancer progression; relevant.",
+      "selected": true
+    },
+    "ZNF552": {
+      "rationale": "Oxidative stress response gene linked to various cancers, including breast; relevant.",
+      "selected": true
+    },
+    "ITGAL": {
+      "rationale": "TNF receptor superfamily gene implicated in several cancers, including breast; relevant.",
+      "selected": true
+    },
+    "LMX1B": {
+      "rationale": "Part of GATA family, implicated in hormone receptor-positive breast cancer; relevant.",
+      "selected": true
+    },
+    "FAM214A": {
+      "rationale": "Mitochondrial biogenesis gene with potential roles in energy metabolism and cancer; relevant.",
+      "selected": true
+    },
+    "MLPH": {
+      "rationale": "Involved in immune response, implicated in breast cancer; relevant.",
+      "selected": true
+    },
+    "ZEB1": {
+      "rationale": "ERK signaling pathway involved in hormone receptor-negative breast cancers; relevant.",
+      "selected": true
+    },
+    "THY1": {
+      "rationale": "Metabolism-related transcription factor linked to breast cancer; relevant.",
+      "selected": true
+    },
+    "INPP4B": {
+      "rationale": "PI3K/AKT pathway gene implicated in various cancers, including breast; relevant.",
+      "selected": true
+    },
+    "XBP1": {
+      "rationale": "ER signaling pathway involved in hormone-dependent breast cancers; relevant.",
+      "selected": true
+    },
+    "PRKAG2-AS1": {
+      "rationale": "Signaling pathway gene with roles in cancer; relevant.",
+      "selected": true
+    },
+    "HLTF": {
+      "rationale": "Involved in NF-kappaB pathway linked to various cancers, including breast; relevant.",
+      "selected": true
+    },
+    "TMEM98": {
+      "rationale": "TGF-beta signaling pathway involved in breast cancer progression; relevant.",
+      "selected": true
+    },
+    "TBC1D9": {
+      "rationale": "NF-kappaB pathway gene implicated in various cancers, possibly breast; relevant.",
+      "selected": true
+    },
+    "RHOB": {
+      "rationale": "Wnt signaling pathway involved in hormone receptor-negative breast cancers; relevant.  The final selection includes these 17 genes based on their known roles in specific pathways and their relevance to breast cancer:",
+      "selected": true
+    },
+    "AL035661.1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "CMBL": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "DNAH5": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "HLA-DRB1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "MB": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "NFE4": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "UTRN": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "RTN4RL1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "TSC22D3": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "GPRC5C": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "NRIP1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "APLNR": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "TPBG": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "TTC22": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "COL8A1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "NPDC1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "AP000553.7": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "MIR5581": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "LYPD6B": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "PODNL1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "PTPRK": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "FGL2": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "SEC24C": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "CTHRC1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "SCNN1A": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "SLC7A8": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "PTK6": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "GNG7": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "GPX7": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "LTBP2": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "ETS1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "FOXA1": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    },
+    "S100A16": {
+      "rationale": "[not parsed from CoT]",
+      "selected": false
+    }
+  },
   "rank_overlap_with_saliency_top_n": 0.647,
   "chain_of_thought": "Here is a selection of genes based on their relevance to breast cancer:\n\n1. **RHEX**: Notable in the Notch pathway, overexpressed in cancers; relevant.\n\n2. **BEX3**: Part of beta-catenin destruction complex, implicated in Wnt signaling and breast cancer; relevant.\n\n3. **CAPN13**: Involved in TGF-beta signaling, associated with breast cancer progression; relevant.\n\n4. **ZNF552**: Oxidative stress response gene linked to various cancers, including breast; relevant.\n\n5. **ITGAL**: TNF receptor superfamily gene implicated in several cancers, including breast; relevant.\n\n6. **LMX1B**: Part of GATA family, implicated in hormone receptor-positive breast cancer; relevant.\n\n7. **FAM214A**: Mitochondrial biogenesis gene with potential roles in energy metabolism and cancer; relevant.\n\n8. **MLPH**: Involved in immune response, implicated in breast cancer; relevant.\n\n9. **ZEB1**: ERK signaling pathway involved in hormone receptor-negative breast cancers; relevant.\n\n10. **THY1**: Metabolism-related transcription factor linked to breast cancer; relevant.\n\n11. **INPP4B**: PI3K/AKT pathway gene implicated in various cancers, including breast; relevant.\n\n12. **XBP1**: ER signaling pathway involved in hormone-dependent breast cancers; relevant.\n\n13. **PRKAG2-AS1**: Signaling pathway gene with roles in cancer; relevant.\n\n14. **HLTF**: Involved in NF-kappaB pathway linked to various cancers, including breast; relevant.\n\n15. **TMEM98**: TGF-beta signaling pathway involved in breast cancer progression; relevant.\n\n16. **TBC1D9**: NF-kappaB pathway gene implicated in various cancers, possibly breast; relevant.\n\n17. **RHOB**: Wnt signaling pathway involved in hormone receptor-negative breast cancers; relevant.\n\nThe final selection includes these 17 genes based on their known roles in specific pathways and their relevance to breast cancer:\n\nSELECTED Genes: RHEX, BEX3, CAPN13, ZNF552, ITGAL, LMX1B, FAM214A, MLPH, ZEB1, THY1, INPP4B, XBP1, PRKAG2-AS1, HLTF, TMEM98, TBC1D9, RHOB",
   "full_response": "Here is a selection of genes based on their relevance to breast cancer:\n\n1. **RHEX**: Notable in the Notch pathway, overexpressed in cancers; relevant.\n\n2. **BEX3**: Part of beta-catenin destruction complex, implicated in Wnt signaling and breast cancer; relevant.\n\n3. **CAPN13**: Involved in TGF-beta signaling, associated with breast cancer progression; relevant.\n\n4. **ZNF552**: Oxidative stress response gene linked to various cancers, including breast; relevant.\n\n5. **ITGAL**: TNF receptor superfamily gene implicated in several cancers, including breast; relevant.\n\n6. **LMX1B**: Part of GATA family, implicated in hormone receptor-positive breast cancer; relevant.\n\n7. **FAM214A**: Mitochondrial biogenesis gene with potential roles in energy metabolism and cancer; relevant.\n\n8. **MLPH**: Involved in immune response, implicated in breast cancer; relevant.\n\n9. **ZEB1**: ERK signaling pathway involved in hormone receptor-negative breast cancers; relevant.\n\n10. **THY1**: Metabolism-related transcription factor linked to breast cancer; relevant.\n\n11. **INPP4B**: PI3K/AKT pathway gene implicated in various cancers, including breast; relevant.\n\n12. **XBP1**: ER signaling pathway involved in hormone-dependent breast cancers; relevant.\n\n13. **PRKAG2-AS1**: Signaling pathway gene with roles in cancer; relevant.\n\n14. **HLTF**: Involved in NF-kappaB pathway linked to various cancers, including breast; relevant.\n\n15. **TMEM98**: TGF-beta signaling pathway involved in breast cancer progression; relevant.\n\n16. **TBC1D9**: NF-kappaB pathway gene implicated in various cancers, possibly breast; relevant.\n\n17. **RHOB**: Wnt signaling pathway involved in hormone receptor-negative breast cancers; relevant.\n\nThe final selection includes these 17 genes based on their known roles in specific pathways and their relevance to breast cancer:\n\nSELECTED Genes: RHEX, BEX3, CAPN13, ZNF552, ITGAL, LMX1B, FAM214A, MLPH, ZEB1, THY1, INPP4B, XBP1, PRKAG2-AS1, HLTF, TMEM98, TBC1D9, RHOB",
-  "note": "Mamba ranks top-50 by gradient saliency. LLM reasons BRCA-specificity for every gene independently of rank, rejecting housekeeping/unannotated/off-target genes and promoting lower-ranked but well-known BRCA genes. LLM selection causally determines the B3 gene set."
+  "note": "Mamba ranks top-50 by gradient saliency. LLM reasons BRCA-specificity for every gene independently of rank, rejecting housekeeping/unannotated/off-target genes and promoting lower-ranked but well-known BRCA genes. LLM selection causally determines the B3 gene set.",
+  "decision_level_metrics": {
+    "TP": 6,
+    "FP": 4,
+    "TN": 6,
+    "FN": 10,
+    "unverifiable": 24,
+    "n_verifiable_input_genes": 26,
+    "precision": 0.6,
+    "recall": 0.375,
+    "specificity_TNR": 0.6,
+    "per_gene": {
+      "RHEX": {
+        "ground_truth": "known_non_brca",
+        "selected": true,
+        "outcome": "FP",
+        "rationale": "Notable in the Notch pathway, overexpressed in cancers; relevant."
+      },
+      "BEX3": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "Part of beta-catenin destruction complex, implicated in Wnt signaling and breast cancer; relevant."
+      },
+      "CAPN13": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "Involved in TGF-beta signaling, associated with breast cancer progression; relevant."
+      },
+      "ZNF552": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "Oxidative stress response gene linked to various cancers, including breast; relevant."
+      },
+      "AL035661.1": {
+        "ground_truth": "known_non_brca",
+        "selected": false,
+        "outcome": "TN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "ITGAL": {
+        "ground_truth": "known_non_brca",
+        "selected": true,
+        "outcome": "FP",
+        "rationale": "TNF receptor superfamily gene implicated in several cancers, including breast; relevant."
+      },
+      "CMBL": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "LMX1B": {
+        "ground_truth": "known_non_brca",
+        "selected": true,
+        "outcome": "FP",
+        "rationale": "Part of GATA family, implicated in hormone receptor-positive breast cancer; relevant."
+      },
+      "FAM214A": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "Mitochondrial biogenesis gene with potential roles in energy metabolism and cancer; relevant."
+      },
+      "MLPH": {
+        "ground_truth": "validated_brca",
+        "selected": true,
+        "outcome": "TP",
+        "rationale": "Involved in immune response, implicated in breast cancer; relevant."
+      },
+      "DNAH5": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "ZEB1": {
+        "ground_truth": "validated_brca",
+        "selected": true,
+        "outcome": "TP",
+        "rationale": "ERK signaling pathway involved in hormone receptor-negative breast cancers; relevant."
+      },
+      "HLA-DRB1": {
+        "ground_truth": "known_non_brca",
+        "selected": false,
+        "outcome": "TN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "MB": {
+        "ground_truth": "known_non_brca",
+        "selected": false,
+        "outcome": "TN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "NFE4": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "THY1": {
+        "ground_truth": "validated_brca",
+        "selected": true,
+        "outcome": "TP",
+        "rationale": "Metabolism-related transcription factor linked to breast cancer; relevant."
+      },
+      "XBP1": {
+        "ground_truth": "validated_brca",
+        "selected": true,
+        "outcome": "TP",
+        "rationale": "ER signaling pathway involved in hormone-dependent breast cancers; relevant."
+      },
+      "UTRN": {
+        "ground_truth": "known_non_brca",
+        "selected": false,
+        "outcome": "TN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "INPP4B": {
+        "ground_truth": "validated_brca",
+        "selected": true,
+        "outcome": "TP",
+        "rationale": "PI3K/AKT pathway gene implicated in various cancers, including breast; relevant."
+      },
+      "PRKAG2-AS1": {
+        "ground_truth": "known_non_brca",
+        "selected": true,
+        "outcome": "FP",
+        "rationale": "Signaling pathway gene with roles in cancer; relevant."
+      },
+      "HLTF": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "Involved in NF-kappaB pathway linked to various cancers, including breast; relevant."
+      },
+      "TMEM98": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "TGF-beta signaling pathway involved in breast cancer progression; relevant."
+      },
+      "TBC1D9": {
+        "ground_truth": "unknown",
+        "selected": true,
+        "outcome": "UNK",
+        "rationale": "NF-kappaB pathway gene implicated in various cancers, possibly breast; relevant."
+      },
+      "RHOB": {
+        "ground_truth": "validated_brca",
+        "selected": true,
+        "outcome": "TP",
+        "rationale": "Wnt signaling pathway involved in hormone receptor-negative breast cancers; relevant.  The final selection includes these 17 genes based on their known roles in specific pathways and their relevance to breast cancer:"
+      },
+      "RTN4RL1": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "TSC22D3": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "GPRC5C": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "NRIP1": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "APLNR": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "TPBG": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "TTC22": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "COL8A1": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "NPDC1": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "AP000553.7": {
+        "ground_truth": "known_non_brca",
+        "selected": false,
+        "outcome": "TN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "MIR5581": {
+        "ground_truth": "known_non_brca",
+        "selected": false,
+        "outcome": "TN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "LYPD6B": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "PODNL1": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "PTPRK": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "FGL2": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "SEC24C": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "CTHRC1": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "SCNN1A": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "SLC7A8": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "PTK6": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "GNG7": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      },
+      "GPX7": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "LTBP2": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "ETS1": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "FOXA1": {
+        "ground_truth": "validated_brca",
+        "selected": false,
+        "outcome": "FN",
+        "rationale": "[not parsed from CoT]"
+      },
+      "S100A16": {
+        "ground_truth": "unknown",
+        "selected": false,
+        "outcome": "UNK",
+        "rationale": "[not parsed from CoT]"
+      }
+    }
+  }
 }

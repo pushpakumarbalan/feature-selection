@@ -1,0 +1,50 @@
+
+=== A1 Top-17 saliency (no LLM) ===
+Genes: ['RHEX', 'BEX3', 'CAPN13', 'ZNF552', 'AL035661.1', 'ITGAL', 'CMBL', 'LMX1B', 'FAM214A', 'MLPH', 'DNAH5', 'ZEB1', 'HLA-DRB1', 'MB', 'NFE4', 'THY1', 'XBP1']
+  fold 1/5  AUC=0.8974
+  fold 2/5  AUC=0.9543
+  fold 3/5  AUC=0.9489
+  fold 4/5  AUC=0.9793
+  fold 5/5  AUC=0.9600
+
+=== A2 Top-17 variance genes ===
+  fold 1/5  AUC=0.9433
+  fold 2/5  AUC=0.9515
+  fold 3/5  AUC=0.9231
+  fold 4/5  AUC=0.9409
+  fold 5/5  AUC=0.9696
+
+=== A3 Random-17 from top-5000 (×5 draws) ===
+  draw 1  AUC=0.9754±0.0241
+  draw 2  AUC=0.9516±0.0202
+  draw 3  AUC=0.9502±0.0328
+  draw 4  AUC=0.9189±0.0429
+  draw 5  AUC=0.9706±0.0178
+
+=== A4 Bottom-17 saliency (sanity check) ===
+Genes: ['AP000553.7', 'MIR5581', 'LYPD6B', 'PODNL1', 'PTPRK', 'FGL2', 'SEC24C', 'CTHRC1', 'SCNN1A', 'SLC7A8', 'PTK6', 'GNG7', 'GPX7', 'LTBP2', 'ETS1', 'FOXA1', 'S100A16']
+  fold 1/5  AUC=0.9656
+  fold 2/5  AUC=0.9505
+  fold 3/5  AUC=0.9450
+  fold 4/5  AUC=0.9801
+  fold 5/5  AUC=0.9665
+
+=== B3 LLM-filtered 17 genes (reference) ===
+Genes: ['RHEX', 'BEX3', 'CAPN13', 'ZNF552', 'ITGAL', 'LMX1B', 'FAM214A', 'MLPH', 'ZEB1', 'THY1', 'INPP4B', 'XBP1', 'PRKAG2-AS1', 'HLTF', 'TMEM98', 'TBC1D9', 'RHOB']
+  fold 1/5  AUC=0.9381
+  fold 2/5  AUC=0.9367
+  fold 3/5  AUC=0.9606
+  fold 4/5  AUC=0.9747
+  fold 5/5  AUC=0.9364
+
+=================================================================
+Condition                                     Genes   AUC mean±std
+-----------------------------------------------------------------
+A1: Top-17 Saliency (no LLM)                     17  0.9480±0.0273
+A2: Top-17 Variance (no LLM)                     17  0.9457±0.0151
+A3: Random-17 from top-5000 (5 draws × 5 folds)    17  0.9533±0.0352
+A4: Bottom-17 Saliency (sanity check)            17  0.9615±0.0125
+B3: Mamba+LLM CoT 17 genes (ours)                17  0.9493±0.0156
+
+Saved → /data4t/projects/fs/results/reasoning_ablations.json
+

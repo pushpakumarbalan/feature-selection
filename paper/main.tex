@@ -1,0 +1,519 @@
+\documentclass{article}
+\usepackage{iclr2026_conference,times}
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{microtype}
+
+\title{LLM Chain-of-Thought Reasoning for Genomic Feature Selection:\\
+When Performance Gains Do Not Imply Faithful Reasoning}
+
+\author{Anonymous Authors}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\begin{document}
+
+\maketitle
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{abstract}
+% ─────────────────────────────────────────────────────────────────────────────
+We study whether LLM chain-of-thought (CoT) reasoning can faithfully filter
+tissue-composition confounders from gradient saliency in a genomic feature
+selection pipeline, and whether downstream performance is a reliable proxy
+for reasoning quality.
+A Mamba SSM trained on TCGA-BRCA RNA-seq extracts top-50 saliency genes;
+DeepSeek-R1 (7B) applies structured CoT to select a 17-gene subset.
+Evaluated with 5-fold stratified cross-validation and bootstrap significance
+testing, the LLM-filtered set achieves Mamba AUC $0.949 \pm 0.016$
+(bootstrap $p = 0.045$ vs.\ the 5,000-gene variance baseline).
+However, ablations reveal that \emph{any} 17-gene subset---top-17 by
+saliency, top-17 by variance, or randomly drawn---performs comparably
+(AUC $0.946$--$0.962$), and data-driven selection methods (MI, SHAP, RF)
+achieve near-ceiling Mamba AUC ($\geq$0.999).
+A decision-level faithfulness audit yields Precision~$= 0.60$,
+Recall~$= 0.375$, and TNR~$= 0.60$ on validated BRCA genes.
+A consistency experiment (five re-runs of the same prompt) finds mean
+pairwise Jaccard overlap of $0.30$, with the model failing to produce
+any structured gene list in 3/5 runs.
+We conclude: (1)~performance gains from LLM filtering are attributable to
+dimensionality reduction, not gene-specific reasoning; (2)~downstream AUC is
+not a reliable proxy for faithfulness; and (3)~structured CoT prompting does
+not guarantee consistent or reproducible outputs from smaller models on
+expert-domain tasks.
+\end{abstract}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Introduction}
+\label{sec:intro}
+% ─────────────────────────────────────────────────────────────────────────────
+
+High-dimensional RNA-seq data presents a severe feature-selection problem:
+most genes are irrelevant to the phenotype, and many that appear predictive
+are confounders rather than disease drivers~\citep{pudjihartono2022review}.
+Gradient-based saliency from neural models reflects what the model learned
+to use, not biological causality.
+LLM reasoning is a natural candidate for filtering saliency-based candidate
+lists using encoded domain knowledge.
+Yet two questions remain under-studied: (i)~does the LLM's stated rationale
+reflect accurate domain knowledge (\emph{faithfulness})?
+and (ii)~is task-level performance a reliable indicator of reasoning quality?
+
+We use TCGA-BRCA as a controlled testbed and make four contributions:
+\begin{enumerate}
+  \item \textbf{Performance is not reasoning.}
+        5-fold CV and ablations show that the observed Mamba AUC gain from
+        LLM filtering is attributable to dimensionality reduction, not
+        gene-specific reasoning: any subset of 17 genes from the saliency
+        pool achieves comparable performance.
+  \item \textbf{Classical methods dominate on performance.}
+        LASSO, RF, and SHAP-based 17-gene selection reaches near-ceiling
+        Mamba AUC ($\geq$0.999), completely outperforming LLM-filtered
+        neural baselines on this binary task.
+  \item \textbf{Decision-level faithfulness is modest.}
+        A per-gene audit yields Precision~$= 0.60$, Recall~$= 0.375$,
+        TNR~$= 0.60$; the model keeps 4 known non-BRCA genes and misses
+        FOXA1, a canonical PAM50 pioneer transcription factor.
+  \item \textbf{Structured CoT is unreliable in small models.}
+        Five re-runs at $T=0.3$ yield mean Jaccard~$= 0.30$ with 3/5 runs
+        producing no valid structured output and zero stable genes,
+        exposing output instability on this expert-domain task.
+\end{enumerate}
+
+These findings demonstrate that downstream metric improvement alone is
+insufficient evidence for faithful or reliable LLM reasoning in biomedical
+feature selection, and motivate consistency testing and ablation as required
+complements to performance metrics.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Related Work}
+\label{sec:related}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\paragraph{LLMs for feature selection.}
+LLM-Select~\citep{jeong2025llmselectfeatureselectionlarge} showed zero-shot
+LLM selection can match LASSO on tabular data.
+LLM-Lasso~\citep{zhang2025llmlassorobustframeworkdomaininformed} integrates
+domain knowledge via LLM-guided regularisation.
+FreeForm~\citep{lee2025knowledgedrivenfeatureselectionengineering} demonstrated
+LLM ensembling in low-data genomic regimes.
+We extend this literature by providing (i)~ablations that isolate whether LLM
+selection gains come from gene identity or set size, (ii)~data-driven 17-gene
+baselines that expose the performance ceiling, and (iii)~a consistency test
+across re-runs.
+
+\paragraph{Faithfulness of LLM reasoning.}
+\citet{turpin2023languagemodelsdontsay} and
+\citet{lanham2023measuringfaithfulnesschainofthoughtreasoning} show that
+CoT explanations do not always reflect internal computation; most studies use
+synthetic tasks.
+We provide a real-domain instance where ground truth (validated cancer
+driver genes) is large and clinically established, and add quantitative
+consistency evidence (Jaccard~$= 0.30$) for structured output instability.
+
+\paragraph{SSMs for genomics.}
+Mamba~\citep{gu2024mambalineartimesequencemodeling} scales linearly in
+sequence length, making it tractable for 20,000-dimensional gene expression
+vectors without attention's quadratic cost.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Methodology}
+\label{sec:method}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Data and Task}
+TCGA-BRCA RNA-seq: 1,095 tumour and 113 matched normal samples,
+$\sim$20,000 genes (TPM), log$_2$(TPM$+$1)-normalised.
+Binary classification: Tumour~(1) / Normal~(0).
+All evaluations use 5-fold stratified CV with bootstrap significance testing
+($n = 2{,}000$ resamples) against the variance baseline (B1).
+
+\subsection{Phase 1 — Mamba SSM}
+Features are filtered to the top-5,000 highest-variance genes.
+An \texttt{OfficialMambaClassifier} embeds each gene's scalar value into
+$d_\text{model}=128$, processes it with a single Mamba block
+($d_\text{state}=16$, $d_\text{conv}=4$, expand$=2$), pools across genes,
+and outputs a sigmoid tumour probability.
+Training: AdamW ($\text{lr}=10^{-4}$, 15 epochs, class-weighted BCELoss
+for 8.8:1 imbalance; architecture in Appendix~\ref{app:arch}).
+
+\subsection{Phase 2 — Gradient Saliency}
+$s_j = \frac{1}{|T|}\sum_{i \in T}
+\bigl|\frac{\partial \mathcal{L}}{\partial x_{ij}}\bigr|$
+averaged over tumour samples $T$.
+Top-50 genes by $s_j$ form the candidate pool $\mathcal{G}_{50}$.
+
+\subsection{Phase 3 — Structured CoT (Single Original Run)}
+$\mathcal{G}_{50}$ is passed to DeepSeek-R1 (7B, Ollama, $T=0.3$) with a
+structured prompt providing saliency scores, five rejection criteria
+(R1--R5: unannotated sequences, housekeeping genes, off-tissue genes,
+non-specific immune markers, antisense RNAs), three keep criteria
+(K1--K3: known oncogenes, BRCA pathways, PAM50 markers), and a mandate to
+evaluate every gene before outputting a \texttt{SELECTED\_GENES} list.
+This produced the \textbf{B3 gene set (17 genes)}.
+Full prompt in Appendix~\ref{app:prompt}.
+
+\subsection{Phase 4 — Evaluation Framework}
+
+\paragraph{Downstream classifiers.}
+Each gene set is evaluated with (i)~\texttt{OfficialMambaClassifier}
+(5-fold CV) and (ii)~LASSO Logistic Regression ($\ell_1$, $C=0.1$, SAGA).
+
+\paragraph{Reasoning ablations.}
+Five 17-gene conditions evaluated with the same Mamba 5-fold CV:
+A1~top-17 saliency (no LLM), A2~top-17 variance,
+A3~random-17 from top-5000 (5 draws $\times$ 5 folds, 25 total evaluations),
+A4~bottom-17 saliency (sanity lower bound), and B3~LLM CoT.
+
+\paragraph{Data-driven 17-gene selection.}
+Mutual Information (MI) top-17, Random Forest feature-importance top-17,
+and SHAP top-17 (TreeExplainer, RF subsample), each from the top-5000
+variance pool, each evaluated with 5-fold Mamba CV.
+
+\paragraph{Decision-level faithfulness audit.}
+B3 gene set cross-referenced against a 101-gene ground-truth set
+(COSMIC CGC Tier-1, OncoKB BRCA, PAM50~\citep{parker2009supervised},
+ER/PI3K/EMT pathways) and a 10-gene known non-BRCA set to yield
+TP, FP, TN, FN, precision, recall, TNR
+(Appendix~\ref{app:groundtruth}).
+
+\paragraph{Consistency test.}
+The original structured prompt re-submitted 5 times at $T=0.3$; a
+shuffled-order variant and names-only variant each submitted 5 times.
+Pairwise Jaccard overlap computed over all $(^5_2) = 10$ run-pairs per
+condition. A robust multi-strategy parser handles format variants
+(\texttt{SELECTED\_GENES:}, \texttt{SELECTED Genes:}, and
+KEEP-line extraction; Appendix~\ref{app:prompt}).
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Results}
+\label{sec:results}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Downstream Classification}
+
+\begin{table}[h]
+\caption{5-fold stratified CV. AUC mean$\pm$std and one-sided bootstrap
+$p$ (is the condition better than B1?). ``—'' for reference.}
+\label{tab:main}
+\vspace{4pt}
+\centering
+\begin{tabular}{llrll}
+\toprule
+\textbf{Model} & \textbf{Condition} & \textbf{Genes}
+  & \textbf{AUC mean$\pm$std} & $p$ vs.\ B1 \\
+\midrule
+Mamba & B1~~Variance baseline          & 5{,}000 & $0.926 \pm 0.026$ & — \\
+Mamba & B2~~Top-50 saliency (no LLM)   &      50 & $0.810 \pm 0.034$ & 1.000 \\
+Mamba & B3~~LLM CoT (ours)             &      17 & $0.949 \pm 0.016$ & 0.045 \\
+\midrule
+LASSO & C1~~Variance (5k)              & 5{,}000 & $0.9996 \pm 0.001$ & 0.000 \\
+LASSO & C2~~Top-50 saliency            &      50 & $0.9965 \pm 0.005$ & 0.000 \\
+LASSO & C3~~17 LLM-filtered            &      17 & $0.9757 \pm 0.010$ & 0.000 \\
+\midrule
+RF    & C4~~Variance (5k)              & 5{,}000 & $0.9995 \pm 0.001$ & 0.000 \\
+RF    & C5~~17 LLM-filtered            &      17 & $0.9928 \pm 0.005$ & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Mamba.}
+B3 ($0.949 \pm 0.016$) exceeds B1 by bootstrap $p=0.045$.
+Paired $t$-test gives $t=-2.26$, $p=0.087$ (5 folds; not significant at
+$\alpha=0.05$), so the Mamba advantage is marginal.
+B2 is significantly worse than B1 ($t=4.38$, $p=0.012$), confirming
+50-gene raw saliency degrades performance.
+
+\paragraph{Classical models.}
+LLM pre-filtering does not benefit regularised models.
+C2 (LASSO on 50 raw saliency genes, AUC $0.997$) outperforms C3 (LASSO on
+17 LLM-filtered genes, AUC $0.976$), because $\ell_1$ regularisation
+natively suppresses confounders.
+LLM filtering is operationally relevant only for neural models without
+built-in regularisation.
+
+\subsection{Reasoning Ablations}
+\label{sec:ablations}
+
+\begin{table}[h]
+\caption{5-fold Mamba AUC for all 17-gene conditions. B3 is not
+statistically distinguishable from any non-LLM selection.
+Data-driven methods (S1--S3) reach near-ceiling AUC.}
+\label{tab:ablations}
+\vspace{4pt}
+\centering
+\begin{tabular}{llr}
+\toprule
+\textbf{ID} & \textbf{Condition} & \textbf{AUC mean$\pm$std} \\
+\midrule
+A1 & Top-17 saliency (no LLM, truncate)     & $0.948 \pm 0.027$ \\
+A2 & Top-17 variance (no LLM)               & $0.946 \pm 0.015$ \\
+A3 & Random-17 from top-5000 (5×5 folds)   & $0.953 \pm 0.035$ \\
+A4 & Bottom-17 saliency (sanity check)      & $0.962 \pm 0.013$ \\
+\textbf{B3} & \textbf{LLM structured CoT (ours)} & $\mathbf{0.949 \pm 0.016}$ \\
+\midrule
+S1 & MI top-17 (data-driven)                & $0.9997 \pm 0.001$ \\
+S2 & RF feature-importance top-17           & $0.9996 \pm 0.001$ \\
+S3 & SHAP top-17                            & $0.9993 \pm 0.001$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Any 17-gene subset performs comparably.}
+A1 through A4 span AUC $0.946$--$0.962$, bracketing B3 ($0.949$).
+Even the \emph{bottom-17 saliency genes} (A4, i.e.\ genes with the
+\emph{lowest} saliency scores) achieve AUC $0.962 > 0.949$.
+The random baseline (A3) achieves $0.953$ across 25 fold-evaluations.
+No pairwise difference between A1--A4 and B3 approaches significance
+under 5-fold CV.
+\textbf{Conclusion: gene count, not gene identity, drives the Mamba
+performance difference between B2 (50 genes) and B3 (17 genes).}
+
+\paragraph{Data-driven methods dominate.}
+MI, RF, and SHAP each achieve Mamba AUC $\geq 0.999$ by selecting maximally
+discriminative features (MMP11, COL10A1, SPRY2, \ldots) that perfectly
+separate tumour from normal in this binary task, outperforming all LLM
+conditions by $> 0.05$ AUC.
+These genes are completely distinct from the B3 set, with no overlap,
+demonstrating that performance and interpretability pursue different
+objectives.
+
+\subsection{Decision-Level Faithfulness Audit}
+\label{sec:faithfulness}
+
+\begin{table}[h]
+\caption{Decision-level faithfulness of the B3 17-gene output.
+Ground truth: 16 validated BRCA and 10 known non-BRCA genes among the
+50 inputs; 24 have no established label.}
+\label{tab:faithfulness}
+\vspace{4pt}
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+TP — validated BRCA genes selected              & 6 \\
+FP — known non-BRCA genes selected             & 4 \\
+TN — known non-BRCA genes correctly rejected   & 6 \\
+FN — validated BRCA genes missed               & 10 \\
+Unverifiable (no GT label)                     & 7/17 (41.2\%) \\
+\midrule
+Precision (TP / (TP+FP))                       & 0.60 \\
+Recall (TP / (TP+FN))                          & 0.375 \\
+Specificity / TNR (TN / (TN+FP))               & 0.60 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{False positives.}
+RHEX, ITGAL, LMX1B, and PRKAG2-AS1 were selected despite matching rejection
+criteria R3/R4/R5. The model justified these with generic pathway invocations
+(``Notch pathway'', ``GATA family'') without BRCA-specific evidence,
+a hallucination pattern consistent with high-level ontology encoding
+without gene-specific fact recall.
+
+\paragraph{Critical false negative.}
+FOXA1---the canonical luminal pioneer transcription factor defining
+ER-positive breast cancer, present in PAM50 and COSMIC CGC---was at rank~49
+in the input and was not selected.
+
+\subsection{Consistency Experiment}
+\label{sec:consistency}
+
+\begin{table}[h]
+\caption{LLM output consistency across 5 re-runs with robust multi-strategy
+parsing. ``Valid runs'' = runs producing $\geq$5 specified genes.}
+\label{tab:consistency}
+\vspace{4pt}
+\centering
+\begin{tabular}{lrrl}
+\toprule
+\textbf{Prompt variant} & \textbf{Valid/5} & \textbf{Jaccard mean$\pm$std}
+  & \textbf{Stable genes ($\geq4/5$)} \\
+\midrule
+Standard ($T=0.3$)        & 2/5 & $0.30 \pm 0.46$ & none \\
+Shuffled gene order       & 0/5 & — & none \\
+Names only (no scores)    & 1/5 & $0.10 \pm 0.30$ & none \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The standard prompt produced valid structured output in only 2 of 5 re-runs.
+Shuffled-order and names-only variants produced valid output in 0 and 1 run
+respectively.
+No gene was stable ($\geq$4/5 runs) in any condition.
+In the one valid standard run that produced 15 genes, the set diverged
+substantially from the original B3 (Jaccard $\approx 0.27$), including genes
+(MB, DNAH5) that the original run rejected as off-tissue confounders.
+The original 17-gene B3 set therefore represents a single non-reproducible
+realisation; the consistency experiment cannot distinguish whether
+saliency-rank anchoring is present because no consistent output emerged.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Discussion}
+\label{sec:discussion}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\paragraph{The B3 performance gain is about subset size, not domain knowledge.}
+The ablation result is the most important finding of this paper:
+bottom-17 saliency genes (A4) and random-17 genes (A3) achieve
+\emph{higher} Mamba AUC than B3 in expectation.
+The LLM's domain filtering does not select a better 17-gene set than
+chance; it simply reduces 50 inputs to 17, and the Mamba architecture
+benefits from this reduction regardless of which 17 are chosen.
+This overturns the earlier framing that LLM reasoning is ``operationally
+necessary'': the necessity is of \emph{dimensionality reduction}, which
+any 17-gene selection achieves.
+
+\paragraph{Task-level AUC is an unreliable faithfulness proxy.}
+This is now rigorously demonstrated: B3 (LLM), A1 (top-17 saliency), A4
+(bottom-17 saliency), and A3 (random) yield indistinguishable AUC.
+Five selection methods with entirely different biological content all
+achieve $0.946$--$0.962$ Mamba AUC.
+Simultaneously, data-driven methods (S1--S3) reach $0.999$ by optimising
+for discriminability, not interpretability.
+AUC measures neither faithfulness nor interpretability; conflating them
+leads to overconfident claims about reasoning quality.
+
+\paragraph{Output instability undermines interpretation.}
+The B3 run's 17-gene output cannot be reproduced with 5 re-runs at the same
+temperature and prompt.
+This is a practical concern beyond academic faithfulness: if the original
+run had been a different draw from the same distribution, the reported
+pipeline would have produced a different---and in one case worse---gene set
+(MB, DNAH5 kept; XBP1, MLPH not seen in a valid alternate run).
+For safety-relevant biomedical applications this instability is unacceptable
+without ensemble or verification steps.
+
+\paragraph{Implications for LLM reasoning research.}
+These results motivate three practices beyond downstream metrics: (1)~ablate
+against non-LLM baselines of the \emph{same set size} to isolate
+dimensionality from content effects; (2)~test consistency across at least 5
+re-runs at fixed temperature and report Jaccard overlap; (3)~report
+decision-level TP/FP/TN/FN when validated ground truth exists, not just
+aggregate performance.
+
+\paragraph{Limitations.}
+Results are specific to TCGA-BRCA (tumour/normal), a relatively easy
+binary task where many 17-gene subsets achieve $\geq 0.94$ AUC; harder
+tasks (subtype, survival) may differentiate selection strategies more.
+The consistency experiment uses DeepSeek-R1 7B only; larger models may be
+more stable.
+All evaluations use a single dataset; generalisation requires additional
+cancer types.
+The 41.2\% of selected genes without ground-truth labels cannot be fully
+audited.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Conclusion}
+\label{sec:conclusion}
+% ─────────────────────────────────────────────────────────────────────────────
+
+We conducted a rigorous evaluation of LLM CoT reasoning for genomic feature
+selection with 5-fold CV, bootstrap significance tests, full classical
+baselines (LASSO, RF, SHAP, MI), reasoning ablations (5 conditions),
+decision-level faithfulness auditing, and a 5-run consistency experiment.
+Key findings:
+(1) The Mamba AUC gain from LLM filtering is attributable to set-size
+reduction, not gene-specific domain knowledge---any 17-gene selection
+achieves comparable AUC;
+(2) data-driven selection reaches near-ceiling AUC ($\geq$0.999),
+completely dominating LLM approaches on this binary task;
+(3) decision-level faithfulness is modest (Precision~$=0.60$,
+Recall~$=0.375$) with zero stable genes across consistency re-runs;
+(4) task-level AUC is not a reliable proxy for reasoning faithfulness.
+These findings motivate ablation against same-size baselines, consistency
+testing, and decision-level auditing as required complements to downstream
+metric evaluation in LLM reasoning research.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\subsubsection*{Acknowledgments}
+% ─────────────────────────────────────────────────────────────────────────────
+TCGA-BRCA data were obtained from the NCI Genomic Data Commons.
+DeepSeek-R1 was run locally via Ollama.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\newpage
+\bibliography{iclr2026_conference}
+\bibliographystyle{iclr2026_conference}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\newpage
+\appendix
+
+\section{Prompt Design}
+\label{app:prompt}
+The structured prompt instructs DeepSeek-R1 to:
+(i)~acknowledge the narrow saliency score range, discouraging rank-based
+selection;
+(ii)~write one explicit keep/reject line per gene using criteria R1--R5
+(rejection: unannotated, housekeeping, off-tissue, immune, antisense) and
+K1--K3 (keep: oncogenes, BRCA pathways, PAM50);
+(iii)~output exactly \texttt{SELECTED\_GENES: gene1, gene2, \ldots} at the end.
+
+The consistency test uses a robust multi-strategy parser that handles
+\texttt{SELECTED\_GENES:}, \texttt{SELECTED Genes:}, ``Final selection''
+blocks, and KEEP-line extraction as fallback strategies.
+
+\section{Model Architecture}
+\label{app:arch}
+\begin{verbatim}
+OfficialMambaClassifier(
+  embedding: Linear(1, 128)
+  mamba: Mamba(d_model=128, d_state=16, d_conv=4, expand=2)
+  pool: AdaptiveAvgPool1d(1)
+  fc: Linear(128, 1)
+  sigmoid: Sigmoid()
+)
+\end{verbatim}
+
+Input: (batch, $N_\text{genes}$) $\to$ unsqueeze $\to$
+embedding $\to$ Mamba $\to$ AdaptiveAvgPool1d $\to$ sigmoid.
+
+\section{Ground-Truth Gene Sources}
+\label{app:groundtruth}
+\begin{itemize}
+  \item \textbf{COSMIC CGC Tier~1 (BRCA)}: TP53, PIK3CA, CDH1, GATA3,
+        PTEN, BRCA1, BRCA2, ERBB2, CCND1, AKT1, RB1, ATM, CHEK2, NF1.
+  \item \textbf{PAM50}~\citep{parker2009supervised}: RHOB, FOXA1, MLPH,
+        ESR1, PGR, and 40+ additional genes.
+  \item \textbf{ER signalling}: ESR1, PGR, FOXA1, XBP1, NRIP1, MLPH, INPP4B.
+  \item \textbf{EMT/TNBC}: ZEB1, ZEB2, VIM, TWIST1, SNAI1, SNAI2.
+  \item \textbf{BRCA-associated}: RHOB, PTK6, ETS1, NRIP1, COL8A1,
+        LTBP2, CTHRC1, GPX7, PTPRK, FGL2, THY1.
+  \item \textbf{Known non-BRCA set}: MB, UTRN (muscle), HLA-DRB1,
+        ITGAL (immune), LMX1B (renal/neural), PRKAG2-AS1 (antisense),
+        RHEX, AL035661.1, AP000553.7, MIR5581 (unannotated/lncRNA).
+\end{itemize}
+
+\section{Per-Fold AUC Details}
+\label{app:full_results}
+\begin{table}[h]
+\caption{Per-fold Mamba AUC for main and ablation conditions.}
+\label{tab:per_fold}
+\vspace{4pt}
+\centering
+\begin{tabular}{lrrrrr|ll}
+\toprule
+\textbf{Condition}
+  & \textbf{f1} & \textbf{f2} & \textbf{f3} & \textbf{f4} & \textbf{f5}
+  & \textbf{Mean} & \textbf{Std} \\
+\midrule
+B1~Variance (5k) & 0.885 & 0.909 & 0.932 & 0.956 & 0.948 & 0.926 & 0.026 \\
+B2~Saliency (50) & 0.850 & 0.833 & 0.751 & 0.803 & 0.813 & 0.810 & 0.034 \\
+B3~LLM CoT (17)  & 0.938 & 0.937 & 0.961 & 0.975 & 0.936 & 0.949 & 0.016 \\
+\midrule
+A1~Top-17 sal.   & 0.897 & 0.954 & 0.949 & 0.979 & 0.960 & 0.948 & 0.027 \\
+A2~Top-17 var.   & 0.943 & 0.952 & 0.923 & 0.941 & 0.970 & 0.946 & 0.015 \\
+A4~Bot-17 sal.   & 0.966 & 0.951 & 0.945 & 0.980 & 0.967 & 0.962 & 0.013 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

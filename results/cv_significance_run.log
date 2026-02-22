@@ -1,0 +1,82 @@
+
+=== B1 Mamba 5k (5-fold CV) ===
+  fold 1/5  AUC=0.8847
+  fold 2/5  AUC=0.9093
+  fold 3/5  AUC=0.9316
+  fold 4/5  AUC=0.9555
+  fold 5/5  AUC=0.9477
+
+=== B2 Mamba 50-saliency (5-fold CV) ===
+  fold 1/5  AUC=0.8495
+  fold 2/5  AUC=0.8332
+  fold 3/5  AUC=0.7510
+  fold 4/5  AUC=0.8033
+  fold 5/5  AUC=0.8132
+
+=== B3 Mamba 17-LLM (5-fold CV) ===
+  fold 1/5  AUC=0.9381
+  fold 2/5  AUC=0.9367
+  fold 3/5  AUC=0.9606
+  fold 4/5  AUC=0.9747
+  fold 5/5  AUC=0.9364
+
+=== C1 LASSO 5k (5-fold CV) ===
+  fold 1/5  AUC=0.9988
+  fold 2/5  AUC=0.9994
+  fold 3/5  AUC=1.0000
+  fold 4/5  AUC=1.0000
+  fold 5/5  AUC=1.0000
+
+=== C2 LASSO 50-saliency (5-fold CV) ===
+  fold 1/5  AUC=0.9876
+  fold 2/5  AUC=0.9992
+  fold 3/5  AUC=1.0000
+  fold 4/5  AUC=0.9998
+  fold 5/5  AUC=0.9957
+
+=== C3 LASSO 17-LLM (5-fold CV) ===
+  fold 1/5  AUC=0.9590
+  fold 2/5  AUC=0.9811
+  fold 3/5  AUC=0.9748
+  fold 4/5  AUC=0.9885
+  fold 5/5  AUC=0.9748
+
+=== C4 RF 5k (5-fold CV) ===
+  fold 1/5  AUC=0.9975
+  fold 2/5  AUC=0.9998
+  fold 3/5  AUC=1.0000
+  fold 4/5  AUC=1.0000
+  fold 5/5  AUC=1.0000
+
+=== C5 RF 17-LLM (5-fold CV) ===
+  fold 1/5  AUC=0.9885
+  fold 2/5  AUC=0.9977
+  fold 3/5  AUC=0.9953
+  fold 4/5  AUC=0.9970
+  fold 5/5  AUC=0.9854
+
+=== Bootstrap significance tests vs B1 ===
+  B2: Mamba Top-50 Saliency (no LLM)          p=1.0000  (worse than B1)
+  B3: Mamba+LLM CoT (ours)                    p=0.0445  (better than B1)
+  C1: LASSO Top-5000 Variance                 p=0.0000  (better than B1)
+  C2: LASSO Top-50 Saliency                   p=0.0000  (better than B1)
+  C3: LASSO 17 LLM-Filtered                   p=0.0000  (better than B1)
+  C4: RandomForest Top-5000 Variance          p=0.0000  (better than B1)
+  C5: RandomForest 17 LLM-Filtered            p=0.0000  (better than B1)
+  Paired t-test B1 vs B2: Mamba Top-50 Sal: t=4.383 p=0.0118
+  Paired t-test B1 vs B3: Mamba+LLM CoT (o: t=-2.258 p=0.0869
+
+========================================================================
+Condition                                   Genes        AUC  p(vs B1)
+------------------------------------------------------------------------
+B1: Mamba Top-5000 Variance                  5000 0.9258±0.0259        —
+B2: Mamba Top-50 Saliency (no LLM)             50 0.8100±0.0336     1.0
+B3: Mamba+LLM CoT (ours)                       17 0.9493±0.0156  0.0445
+C1: LASSO Top-5000 Variance                  5000 0.9996±0.0005     0.0
+C2: LASSO Top-50 Saliency                      50 0.9965±0.0047     0.0
+C3: LASSO 17 LLM-Filtered                      17 0.9757±0.0097     0.0
+C4: RandomForest Top-5000 Variance           5000 0.9995±0.0010     0.0
+C5: RandomForest 17 LLM-Filtered               17 0.9928±0.0049     0.0
+
+Saved → /data4t/projects/fs/results/cv_significance.json
+

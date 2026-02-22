@@ -1,0 +1,75 @@
+{
+  "standard_T03": {
+    "label": "Standard prompt, T=0.3",
+    "mean_set_size": 3.2,
+    "std_set_size": 5.91,
+    "mean_jaccard": 0.3,
+    "std_jaccard": 0.4583,
+    "stable_genes_4of5": [],
+    "all_runs": [
+      [],
+      [],
+      [],
+      [
+        "MLPH"
+      ],
+      [
+        "CAPN13",
+        "CMBL",
+        "MB",
+        "DNAH5",
+        "INPP4B",
+        "HLTF",
+        "TBC1D9",
+        "GPRC5C",
+        "TTC22",
+        "AP000553.7",
+        "MIR5581",
+        "PODNL1",
+        "FGL2",
+        "CTHRC1",
+        "LTBP2"
+      ]
+    ]
+  },
+  "shuffled_T03": {
+    "label": "Shuffled order, T=0.3",
+    "mean_set_size": 0.0,
+    "std_set_size": 0.0,
+    "mean_jaccard": 1.0,
+    "std_jaccard": 0.0,
+    "stable_genes_4of5": [],
+    "all_runs": [
+      [],
+      [],
+      [],
+      [],
+      []
+    ]
+  },
+  "names_only_T03": {
+    "label": "Names-only, T=0.3",
+    "mean_set_size": 1.4,
+    "std_set_size": 1.2,
+    "mean_jaccard": 0.1,
+    "std_jaccard": 0.3,
+    "stable_genes_4of5": [],
+    "all_runs": [
+      [
+        "BEX3",
+        "PRKAG2-AS1"
+      ],
+      [],
+      [],
+      [
+        "RHEX",
+        "MLPH",
+        "APLNR"
+      ],
+      [
+        "CAPN13",
+        "FAM214A"
+      ]
+    ]
+  }
+}

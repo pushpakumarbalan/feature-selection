@@ -1,0 +1,42 @@
+
+=== S1 Mutual Information top-17 ===
+  Selected: [np.str_('VEGFD'), np.str_('CD300LG'), np.str_('MMP11'), np.str_('CAVIN2'), np.str_('SPRY2'), np.str_('COL10A1'), np.str_('ADAMTS5'), np.str_('SCARA5'), np.str_('CAV1'), np.str_('ITIH5'), np.str_('AUXG01000058.1'), np.str_('MME'), np.str_('BTNL9'), np.str_('PAMR1'), np.str_('CA4'), np.str_('CAV2'), np.str_('PDE2A')]
+  fold 1  AUC=0.9983
+  fold 2  AUC=1.0000
+  fold 3  AUC=1.0000
+  fold 4  AUC=1.0000
+  fold 5  AUC=1.0000
+
+=== S2 RF Feature Importance top-17 ===
+  Selected: [np.str_('SCN4B'), np.str_('SPRY2'), np.str_('MMP11'), np.str_('COL10A1'), np.str_('DMD'), np.str_('ADAMTS5'), np.str_('PAMR1'), np.str_('RERGL'), np.str_('CHL1'), np.str_('FMO2'), np.str_('PDE2A'), np.str_('MYOM1'), np.str_('HJURP'), np.str_('ITM2A'), np.str_('CAV2'), np.str_('CAVIN2'), np.str_('PKMYT1')]
+  fold 1  AUC=0.9981
+  fold 2  AUC=1.0000
+  fold 3  AUC=1.0000
+  fold 4  AUC=1.0000
+  fold 5  AUC=1.0000
+
+=== S3 SHAP top-17 ===
+  Selected: ['COL10A1', 'RERGL', 'SPRY2', 'PAFAH1B3', 'NEK2', 'CCN4', 'VEGFD', 'AUXG01000058.1', 'ADAMTS5', 'CAV2', 'CLEC3B', 'APCDD1', 'S100B', 'MME', 'HSD17B6', 'CRYAB', 'PDE2A']
+  fold 1  AUC=0.9969
+  fold 2  AUC=0.9994
+  fold 3  AUC=1.0000
+  fold 4  AUC=1.0000
+  fold 5  AUC=1.0000
+
+=== S4 LLM-filtered 17 genes (reference) ===
+  fold 1  AUC=0.9381
+  fold 2  AUC=0.9367
+  fold 3  AUC=0.9606
+  fold 4  AUC=0.9747
+  fold 5  AUC=0.9364
+
+=================================================================
+Condition                                  AUC mean±std
+-----------------------------------------------------------------
+  S1: MI top-17                           0.9997±0.0007
+  S2: RF-Importance top-17                0.9996±0.0008
+  S3: SHAP top-17                         0.9993±0.0012
+  B3: LLM CoT 17 genes (reference)        0.9493±0.0156
+
+Saved → /data4t/projects/fs/results/shap_mi_baselines.json
+
