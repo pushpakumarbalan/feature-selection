@@ -11,7 +11,7 @@ SALIENCY_JSON = "/data4t/projects/fs/data_processed/top_genes_saliency.json"
 LLM_JSON      = "/data4t/projects/fs/data_processed/llm_gene_reasoning.json"
 OLLAMA_URL    = "http://localhost:11434/api/generate"
 MODEL         = "deepseek-r1:7b"
-TOP_N         = 20   # same as B3 in 03_train_comparison.py
+TOP_N         = 17   # matches paper B3 gene count
 
 with open(SALIENCY_JSON) as f:
     saliency_data = json.load(f)

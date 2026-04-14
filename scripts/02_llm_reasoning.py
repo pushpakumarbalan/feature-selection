@@ -11,7 +11,7 @@ OUT_JSON = "/data4t/projects/fs/data_processed/llm_gene_reasoning.json"
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL      = "deepseek-r1:7b"
-N_SELECT   = 20  # LLM selects this many from top-50
+N_SELECT   = 17  # fallback aligns with paper's final B3 gene count
 
 # ─── Prompt design notes ────────────────────────────────────────────────────
 # Problem we are solving: a naive LLM will simply keep the top-N by saliency
@@ -119,10 +119,10 @@ def main():
             selected_genes = selected_valid
             print(f"\nLLM reasoned and selected {len(selected_genes)} genes: {selected_genes}")
         else:
-            print(f"WARNING: Only {len(selected_valid)} valid genes parsed — using top-20 saliency as fallback")
+            print(f"WARNING: Only {len(selected_valid)} valid genes parsed — using top-{N_SELECT} saliency as fallback")
             selected_genes = genes[:N_SELECT]
     else:
-        print("WARNING: Could not parse SELECTED_GENES — using top-20 saliency as fallback")
+        print(f"WARNING: Could not parse SELECTED_GENES — using top-{N_SELECT} saliency as fallback")
         selected_genes = genes[:N_SELECT]
 
     # Extract per-gene keep/reject reasoning lines

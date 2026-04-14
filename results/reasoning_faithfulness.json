@@ -1,0 +1,445 @@
+{
+  "model": "deepseek-r1:7b",
+  "n_input_genes": 50,
+  "n_selected_genes": 17,
+  "n_per_gene_reasoning_captured": 0,
+  "ground_truth_set_size": 101,
+  "decision_faithfulness_metrics": {
+    "TP": 0,
+    "FP": 0,
+    "TN": 0,
+    "FN": 0,
+    "UNKNOWN_KEEP": 0,
+    "UNKNOWN_REJECT": 23,
+    "precision": null,
+    "recall": null,
+    "f1": null,
+    "specificity": null
+  },
+  "decision_details_per_gene": {
+    "RHEX": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "BEX3": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "CAPN13": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "ZNF552": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "AL035661.1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "ITGAL": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "CMBL": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "LMX1B": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "FAM214A": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "MLPH": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "er_signalling+pam50+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "DNAH5": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "ZEB1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "emt_tnbc+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "HLA-DRB1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "MB": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "NFE4": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "THY1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "XBP1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "er_signalling+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "UTRN": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "INPP4B": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "er_signalling+pi3k_akt+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "PRKAG2-AS1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "HLTF": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "TMEM98": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "TBC1D9": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "RHOB": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "pam50+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "RTN4RL1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "TSC22D3": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "GPRC5C": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "NRIP1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "er_signalling+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "APLNR": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "TPBG": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "TTC22": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "COL8A1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "NPDC1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "AP000553.7": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "MIR5581": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": false,
+      "ground_truth_category": "known_non_brca",
+      "verdict": "NOT_EVALUATED"
+    },
+    "LYPD6B": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "PODNL1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "PTPRK": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "FGL2": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "SEC24C": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "CTHRC1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "SCNN1A": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "SLC7A8": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "PTK6": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "GNG7": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    },
+    "GPX7": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "LTBP2": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "ETS1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "FOXA1": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": true,
+      "ground_truth_category": "er_signalling+pam50+brca_associated",
+      "verdict": "NOT_EVALUATED"
+    },
+    "S100A16": {
+      "llm_decision": "NOT_EVALUATED",
+      "llm_reason": "",
+      "ground_truth_validated": null,
+      "ground_truth_category": "unknown",
+      "verdict": "UNVERIFIABLE_REJECT"
+    }
+  },
+  "selected_gene_quality": {
+    "total_selected": 17,
+    "validated_brca": 6,
+    "known_non_brca": 3,
+    "unverifiable": 8,
+    "pct_validated": 0.3529,
+    "validated_genes": [
+      "MLPH",
+      "ZEB1",
+      "THY1",
+      "INPP4B",
+      "XBP1",
+      "RHOB"
+    ],
+    "non_brca_genes": [
+      "ITGAL",
+      "LMX1B",
+      "PRKAG2-AS1"
+    ],
+    "unverifiable_genes": [
+      "RHEX",
+      "BEX3",
+      "CAPN13",
+      "ZNF552",
+      "FAM214A",
+      "HLTF",
+      "TMEM98",
+      "TBC1D9"
+    ]
+  },
+  "missed_brca_gene_analysis": {
+    "validated_in_input": [
+      "MLPH",
+      "ZEB1",
+      "THY1",
+      "XBP1",
+      "INPP4B",
+      "RHOB",
+      "NRIP1",
+      "COL8A1",
+      "PTPRK",
+      "FGL2",
+      "CTHRC1",
+      "PTK6",
+      "GPX7",
+      "LTBP2",
+      "ETS1",
+      "FOXA1"
+    ],
+    "n_validated_in_input": 16,
+    "correctly_kept_by_llm": [
+      "MLPH",
+      "ZEB1",
+      "THY1",
+      "XBP1",
+      "INPP4B",
+      "RHOB"
+    ],
+    "missed_by_llm": [
+      "NRIP1",
+      "COL8A1",
+      "PTPRK",
+      "FGL2",
+      "CTHRC1",
+      "PTK6",
+      "GPX7",
+      "LTBP2",
+      "ETS1",
+      "FOXA1"
+    ],
+    "recall_of_validated_input": 0.375
+  },
+  "pathway_accuracy_spot_check": {},
+  "summary": "The LLM correctly identified 0 of 0 validated BRCA genes (recall=None). 35.3% of finally selected genes are validated BRCA genes. 10 known BRCA genes in the input were missed."
+}

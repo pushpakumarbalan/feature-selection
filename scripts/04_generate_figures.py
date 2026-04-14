@@ -2,7 +2,7 @@
 Step 4: Generate all paper figures.
   Fig 1: Pipeline flowchart (system diagram)
   Fig 2: Bar chart - accuracy/F1/AUC across B1/B2/B3
-  Fig 3: Gene saliency heatmap (top-20)
+    Fig 3: Gene saliency heatmap (top-50 with LLM keep/reject overlay)
   Fig 4: Chain-of-thought excerpt from DeepSeek-R1
 """
 import json
@@ -106,7 +106,7 @@ def fig_pipeline():
     # ── B3 path (lower branch) ────────────────────────────────────
     X_LLM = X_FORK + 1.15 + BW/2    # LLM box same x as B2 box
     box(X_LLM, Y_B3,
-        "DeepSeek-R1\nReasoning\nkeep / reject each gene\n→ selects 20 BRCA-specific",
+        "DeepSeek-R1\nReasoning\nkeep / reject each gene\n-> selects 17 BRCA-specific",
         "#FFCDD2", ec="#E53935", lw=2)
 
     # causal annotation badge
@@ -118,9 +118,9 @@ def fig_pipeline():
     # arrow: LLM → B3 retrain
     X_B3_TRAIN = X_LLM + BW/2 + 1.1 + BW/2    # ≈ 15.55
     arrow(X_LLM + BW/2, Y_B3, X_B3_TRAIN - BW/2, Y_B3,
-          color="#E53935", label="20 LLM-selected", label_side="top")
+                    color="#E53935", label="17 LLM-selected", label_side="top")
     box(X_B3_TRAIN, Y_B3,
-        "B3: Mamba\nRetrain\n(20 LLM-reasoned\nBRCA-specific genes)",
+                "B3: Mamba\nRetrain\n(17 LLM-reasoned\nBRCA-specific genes)",
         "#FFCCBC", ec="#E53935", lw=2)
 
     # ── Comparison output box ─────────────────────────────────────
