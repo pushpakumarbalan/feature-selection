@@ -4,9 +4,9 @@
 
 This repository implements the pipeline described in:
 
-Mamba_SSM_with_LLM_Reasoning_for_Biomarker_Discovery__Causal_Feature_Refinement_via_Chain_of_Thought_Gene_Evaluation.pdf
+[Mamba_SSM_with_LLM_Reasoning_for_Biomarker_Discovery.pdf](paper/Mamba_SSM_with_LLM_Reasoning_for_Biomarker_Discovery.pdf)
 
-The workflow is:
+The workflow:
 
 ```
 TCGA-BRCA RNA-seq (~20k genes)
@@ -16,6 +16,10 @@ TCGA-BRCA RNA-seq (~20k genes)
     -> Final 17-gene BRCA-specific subset
     -> 3-way benchmark (B1/B2/B3)
 ```
+
+### System Pipeline Figure
+
+![System Pipeline](results/figures/f1g_pipeline1.png)
 
 ## Paper Results (Held-Out Test Split)
 

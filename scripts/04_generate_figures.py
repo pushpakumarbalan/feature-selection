@@ -14,6 +14,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.patheffects as pe
+from matplotlib.colors import Normalize
 import numpy as np
 
 SALIENCY_JSON  = "/data4t/projects/fs/data_processed/top_genes_saliency.json"
@@ -22,21 +23,21 @@ RESULTS_JSON   = "/data4t/projects/fs/results/comparison_results.json"
 FIG_DIR        = "/data4t/projects/fs/results/figures"
 os.makedirs(FIG_DIR, exist_ok=True)
 
-COLORS = {"B1": "#6c757d", "B2": "#2196F3", "B3": "#4CAF50"}
+COLORS = {"B1": "#64748B", "B2": "#2563EB", "B3": "#14B8A6"}
 
 
 # ─── Figure 1: Pipeline Flowchart ────────────────────────────────────────────
 def fig_pipeline():
     """Two-branch pipeline: shows LLM as a CAUSAL re-ranking step (B2 vs B3)."""
-    BW, BH = 2.3, 1.2   # box width, height
-    fig, ax = plt.subplots(figsize=(18, 9))
-    ax.set_xlim(0, 18)
-    ax.set_ylim(0, 9)
+    BW, BH = 3.1, 1.8   # box width, height (poster-large scale)
+    fig, ax = plt.subplots(figsize=(28, 14))
+    ax.set_xlim(0, 21)
+    ax.set_ylim(0, 10)
     ax.axis("off")
     ax.set_facecolor("#f0f4f8")
     fig.patch.set_facecolor("#f0f4f8")
 
-    def box(cx, cy, label, color, fs=8.5, bold=True, ec="#333", lw=1.5):
+    def box(cx, cy, label, color, fs=14, bold=True, ec="#333", lw=1.8):
         """Draw a rounded box centred at (cx, cy)."""
         p = mpatches.FancyBboxPatch(
             (cx - BW/2, cy - BH/2), BW, BH,
@@ -48,24 +49,25 @@ def fig_pipeline():
                 fontsize=fs, fontweight="bold" if bold else "normal",
                 zorder=4, multialignment="center")
 
-    def arrow(x0, y0, x1, y1, color="#333", lw=1.5, label="", label_side="bottom"):
+    def arrow(x0, y0, x1, y1, color="#333", lw=1.8, label="", label_side="bottom"):
         ax.annotate("", xy=(x1, y1), xytext=(x0, y0),
                     arrowprops=dict(arrowstyle="->", lw=lw, color=color))
         if label:
             mx, my = (x0 + x1) / 2, (y0 + y1) / 2
-            dy = -0.28 if label_side == "bottom" else 0.28
+            dy = -0.35 if label_side == "bottom" else 0.35
             dx = -0.35 if label_side == "left" else 0
             ax.text(mx + dx, my + dy, label, ha="center", va="center",
-                    fontsize=7, color="#555", style="italic")
+                    fontsize=12, color="#555", style="italic")
 
     # ── Row 1: main pipeline ──────────────────────────────────────
     # centres at y=7.0
-    Y_MAIN = 7.0
+    Y_MAIN = 7.3
     main_boxes = [
-        (1.4,  "TCGA-BRCA\nRNA-seq\n(~1100 samples,\n20 k genes)",    "#90CAF9"),
-        (4.1,  "Variance\nFilter\n(top 5 000\ngenes)",                  "#B0BEC5"),
-        (6.8,  "Mamba SSM\nClassifier\n(initial\ntraining)",            "#7986CB"),
-        (9.5,  "Gradient\nSaliency\nExtraction\n(top-50 genes)",        "#4DB6AC"),
+        (1.3,  "TCGA-BRCA\nRNA-seq\n(~1100 samples,\n20k genes)",       "#90CAF9"),
+        (3.1,  "log₂(TPM+1)\nNormalization\n(variance\nstabilisation)",  "#FFF9C4"),
+        (5.2,  "Variance\nFilter\n(top 5 000\ngenes)",                  "#B0BEC5"),
+        (7.5,  "Mamba SSM\nClassifier\n(initial\ntraining)",            "#7986CB"),
+        (10.0, "Gradient\nSaliency\nExtraction\n(top-50 genes)",        "#4DB6AC"),
     ]
     for cx, lbl, col in main_boxes:
         box(cx, Y_MAIN, lbl, col)
@@ -74,22 +76,23 @@ def fig_pipeline():
     gaps = [
         (main_boxes[0][0] + BW/2, main_boxes[1][0] - BW/2, ""),
         (main_boxes[1][0] + BW/2, main_boxes[2][0] - BW/2, ""),
-        (main_boxes[2][0] + BW/2, main_boxes[3][0] - BW/2, "saliency"),
+        (main_boxes[2][0] + BW/2, main_boxes[3][0] - BW/2, ""),
+        (main_boxes[3][0] + BW/2, main_boxes[4][0] - BW/2, "saliency"),
     ]
     for x0, x1, lbl in gaps:
         arrow(x0, Y_MAIN, x1, Y_MAIN, label=lbl)
 
     # ── Fork from saliency box ────────────────────────────────────
-    X_FORK = main_boxes[3][0] + BW/2    # right edge of saliency box ≈ 10.65
-    Y_B2   = 4.8
-    Y_B3   = 2.2
+    X_FORK = main_boxes[4][0] + BW/2    # right edge of saliency box ≈ 11.55
+    Y_B2   = 5.0
+    Y_B3   = 2.4
 
     # vertical splitter line
     ax.plot([X_FORK + 0.5, X_FORK + 0.5], [Y_B3, Y_MAIN],
-            color="#777", lw=1.4, ls="--", zorder=2)
+            color="#777", lw=1.7, ls="--", zorder=2)
     # dots at split
-    ax.plot(X_FORK + 0.5, Y_B2, "o", color="#777", ms=5, zorder=3)
-    ax.plot(X_FORK + 0.5, Y_B3, "o", color="#777", ms=5, zorder=3)
+    ax.plot(X_FORK + 0.5, Y_B2, "o", color="#777", ms=7, zorder=3)
+    ax.plot(X_FORK + 0.5, Y_B3, "o", color="#777", ms=7, zorder=3)
     # horizontal arrows from splitter to B2 and B3 first boxes
     arrow(X_FORK, Y_MAIN, X_FORK + 0.5, Y_MAIN)   # connect saliency box to splitter
     arrow(X_FORK + 0.5, Y_B2, X_FORK + 1.15, Y_B2,
@@ -112,8 +115,8 @@ def fig_pipeline():
     # causal annotation badge
     ax.text(X_LLM + BW/2 + 0.15, Y_B3 + 0.25,
             "⚡ CAUSAL\nSTEP", ha="left", va="center",
-            fontsize=7.5, fontweight="bold", color="#B71C1C",
-            bbox=dict(boxstyle="round,pad=0.15", fc="#FFEBEE", ec="#E53935", lw=1))
+            fontsize=12, fontweight="bold", color="#B71C1C",
+            bbox=dict(boxstyle="round,pad=0.18", fc="#FFEBEE", ec="#E53935", lw=1.3))
 
     # arrow: LLM → B3 retrain
     X_B3_TRAIN = X_LLM + BW/2 + 1.1 + BW/2    # ≈ 15.55
@@ -128,7 +131,7 @@ def fig_pipeline():
     Y_CMP = 0.75
     box(X_CMP, Y_CMP,
         "Performance\nComparison\nB1 / B2 / B3",
-        "#C8E6C9", ec="#388E3C", lw=2, fs=8)
+        "#C8E6C9", ec="#388E3C", lw=2.2, fs=12.5)
     # arrows from B2 and B3 to comparison
     arrow(X_B2_1, Y_B2 - BH/2, X_CMP, Y_CMP + BH/2 + 0.1,
           color="#2196F3", lw=1.3)
@@ -138,25 +141,25 @@ def fig_pipeline():
     # B1 baseline note
     ax.text(X_CMP, Y_CMP - BH/2 - 0.18,
             "+ B1 Baseline (top-5000 variance genes)",
-            ha="center", va="top", fontsize=7.5, color="#555", style="italic")
+            ha="center", va="top", fontsize=12, color="#555", style="italic")
 
     # ── Section labels ────────────────────────────────────────────
     ax.text(0.15, Y_MAIN + BH/2 + 0.22, "① Data & Feature Extraction",
-            fontsize=8, fontweight="bold", color="#1A237E", va="bottom")
+            fontsize=13, fontweight="bold", color="#1A237E", va="bottom")
     ax.text(X_FORK + 1.0, Y_B2 + BH/2 + 0.25, "② B2 — Mamba Only",
-            fontsize=8, fontweight="bold", color="#1565C0", va="bottom")
+            fontsize=13, fontweight="bold", color="#1565C0", va="bottom")
     ax.text(X_FORK + 1.0, Y_B3 + BH/2 + 0.25,
             "③ B3 — Mamba + LLM Reasoning (causal)",
-            fontsize=8, fontweight="bold", color="#B71C1C", va="bottom")
+            fontsize=13, fontweight="bold", color="#B71C1C", va="bottom")
 
     ax.set_title(
         "Mamba-SSM + LLM Reasoning Pipeline for BRCA Gene Biomarker Discovery\n"
         "LLM reasoning causally determines B3 gene set — not post-hoc explanation",
-        fontsize=12, fontweight="bold", pad=10
+        fontsize=22, fontweight="bold", pad=14
     )
-    plt.tight_layout(pad=1.0)
+    plt.tight_layout(pad=1.8)
     path = f"{FIG_DIR}/fig1_pipeline.png"
-    plt.savefig(path, bbox_inches="tight", dpi=180)
+    plt.savefig(path, bbox_inches="tight", dpi=360)
     print(f"Saved Fig 1 → {path}")
     plt.close()
 
@@ -174,12 +177,16 @@ def fig_comparison():
 
     x = np.arange(len(labels))
     w = 0.25
-    colors = [COLORS[l] for l in labels]
-
     fig, ax = plt.subplots(figsize=(9, 5))
-    b1 = ax.bar(x - w, acc, w, label="Accuracy", color=[c+"cc" for c in colors], edgecolor="white")
-    b2 = ax.bar(x,     f1,  w, label="F1 (weighted)", color=colors, edgecolor="white")
-    b3 = ax.bar(x + w, auc, w, label="AUC-ROC", color=[c+"88" for c in colors], edgecolor="white")
+    # Light-to-dark shading: higher score -> darker color
+    norm = Normalize(vmin=0.6, vmax=1.0)
+    acc_colors = [plt.cm.Blues(0.30 + 0.65 * norm(v)) for v in acc]
+    f1_colors  = [plt.cm.Purples(0.30 + 0.65 * norm(v)) for v in f1]
+    auc_colors = [plt.cm.Greens(0.30 + 0.65 * norm(v)) for v in auc]
+
+    b1 = ax.bar(x - w, acc, w, label="Accuracy", color=acc_colors, edgecolor="white")
+    b2 = ax.bar(x,     f1,  w, label="F1 (weighted)", color=f1_colors, edgecolor="white")
+    b3 = ax.bar(x + w, auc, w, label="AUC-ROC", color=auc_colors, edgecolor="white")
 
     for bars in [b1, b2, b3]:
         for bar in bars:
@@ -196,8 +203,8 @@ def fig_comparison():
     ax.legend(fontsize=9)
     ax.yaxis.grid(True, alpha=0.4)
     ax.set_axisbelow(True)
-    fig.patch.set_facecolor("#f8f9fa")
-    ax.set_facecolor("#f8f9fa")
+    fig.patch.set_facecolor("#f8fafc")
+    ax.set_facecolor("#f8fafc")
 
     plt.tight_layout()
     path = f"{FIG_DIR}/fig2_comparison.png"
@@ -273,7 +280,7 @@ def fig_cot():
         reason = _re.sub(r'\s+', ' ', reason)
         if gene in set(input_genes):
             decision = "Keep" if gene in kept_set else "Reject"
-            rows.append((gene, decision, reason[:95] + ('...' if len(reason) > 95 else '')))
+            rows.append((gene, decision, reason[:75] + ('...' if len(reason) > 75 else '')))
 
     # Fallback: build rows from input_genes if parser found nothing
     if not rows:
@@ -282,11 +289,11 @@ def fig_cot():
             rows.append((g, decision, "(see full_response in llm_gene_reasoning.json)"))
 
     n_rows  = len(rows)
-    row_h   = 0.38
-    hdr_h   = 1.5
+    row_h   = 0.50
+    hdr_h   = 2.25
     fig_h   = hdr_h + n_rows * row_h + 0.5
 
-    fig, ax = plt.subplots(figsize=(13, fig_h))
+    fig, ax = plt.subplots(figsize=(15.5, fig_h))
     ax.axis("off")
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
@@ -296,26 +303,26 @@ def fig_cot():
     # ── Title ──
     ax.text(6.5, fig_h - 0.35,
             f"DeepSeek-R1 Per-Gene Biological Reasoning  (model: {data['model']})",
-            ha="center", va="top", fontsize=12, fontweight="bold", color="black")
+            ha="center", va="top", fontsize=14, fontweight="bold", color="black")
     ax.text(6.5, fig_h - 0.78,
             "Mamba selected top-50 genes by gradient saliency. "
             "LLM evaluated each gene for BRCA specificity — "
             "decisions causally determine the B3 training set.",
-            ha="center", va="top", fontsize=9.5, color="#222", style="italic")
+            ha="center", va="top", fontsize=11, color="#222", style="italic")
 
     # ── Column headers ──
     COL  = [0.25, 2.55, 4.35, 13.0]   # left-edge x positions
     CTRX = [1.38, 3.45, 8.65]          # centre x per column
     HDR  = ["Gene", "Decision", "Biological Justification / Pathway"]
-    hdr_y = fig_h - 1.22
+    hdr_y = fig_h - 1.80
     for hdr, cx in zip(HDR, CTRX):
         ax.text(cx, hdr_y, hdr, ha="center", va="center",
-                fontsize=10.5, fontweight="bold", color="black")
-    ax.axhline(hdr_y - 0.20, xmin=0.015, xmax=0.985, color="black", lw=1.1)
+                fontsize=12.5, fontweight="bold", color="black")
+    ax.axhline(hdr_y - 0.34, xmin=0.015, xmax=0.985, color="black", lw=1.1)
 
     # ── Rows ──
     for r_idx, (gene, decision, reason) in enumerate(rows):
-        y = hdr_y - 0.24 - r_idx * row_h
+        y = hdr_y - 0.85 - r_idx * row_h
         if r_idx % 2 == 0:
             bg = mpatches.FancyBboxPatch(
                 (0.15, y - row_h * 0.50), 12.7, row_h * 0.96,
@@ -326,19 +333,19 @@ def fig_cot():
 
         # Gene name
         ax.text(COL[0] + 0.1, y, gene, ha="left", va="center",
-                fontsize=9.5, fontweight="bold", color="black", zorder=2)
+            fontsize=11, fontweight="bold", color="black", zorder=2)
 
         # Decision symbol — bold, slightly larger
         sym  = "✓ Keep" if decision == "Keep" else "✗ Reject"
         ax.text(CTRX[1], y, sym, ha="center", va="center",
-                fontsize=9.5, fontweight="bold", color="black", zorder=2)
+            fontsize=11.5, fontweight="bold", color="black", zorder=2)
 
         # Reason
         ax.text(COL[2] + 0.1, y, reason, ha="left", va="center",
-                fontsize=8.5, color="#111", zorder=2)
+            fontsize=10, color="#111", zorder=2)
 
     # ── Bottom border ──
-    bot = hdr_y - 0.24 - n_rows * row_h + row_h * 0.46
+    bot = hdr_y - 0.85 - n_rows * row_h + row_h * 0.46
     ax.axhline(bot, xmin=0.015, xmax=0.985, color="black", lw=0.8)
     ax.add_patch(mpatches.FancyBboxPatch(
         (0.15, bot), 12.7, (hdr_y - bot + 0.24),
@@ -348,7 +355,7 @@ def fig_cot():
 
     plt.tight_layout(pad=0.4)
     path = f"{FIG_DIR}/fig4_cot.png"
-    plt.savefig(path, bbox_inches="tight", dpi=200)
+    plt.savefig(path, bbox_inches="tight", dpi=260)
     print(f"Saved Fig 4 → {path}")
     plt.close()
 
