@@ -27,5 +27,3 @@ env/
 .DS_Store
 .thumbs
 
-# --- Figures: PDF not needed (PNG only) ---
-*.pdf
