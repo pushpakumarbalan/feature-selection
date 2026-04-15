@@ -1,5 +1,9 @@
 # Mamba SSM + LLM Reasoning for Biomarker Discovery (TCGA-BRCA)
 
+## System Pipeline Figure
+
+![System Pipeline](results/figures/f1g_pipeline1.png)
+
 ## Summary
 
 This repository implements the pipeline described in:
@@ -16,10 +20,6 @@ TCGA-BRCA RNA-seq (~20k genes)
     -> Final 17-gene BRCA-specific subset
     -> 3-way benchmark (B1/B2/B3)
 ```
-
-### System Pipeline Figure
-
-![System Pipeline](results/figures/f1g_pipeline1.png)
 
 ## Paper Results (Held-Out Test Split)
 
