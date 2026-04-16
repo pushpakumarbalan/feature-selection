@@ -51,6 +51,8 @@ conda activate fs311
 # see setup notes in environment.yml
 ```
 
+Note: several scripts use hardcoded absolute paths under `/data4t/projects/fs`; update them if you run the project from a different location.
+
 ## Data
 
 TCGA-BRCA RNA-seq downloaded via GDC Data Transfer Tool. Not included in repo (5GB+).

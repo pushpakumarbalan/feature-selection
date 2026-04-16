@@ -104,27 +104,27 @@ def fig_pipeline():
     X_B2_1 = X_FORK + 1.15 + BW/2   # ≈ 12.95
     box(X_B2_1, Y_B2,
         "B2: Mamba\nRetrain\n(50 Mamba-saliency\ngenes)",
-        "#BBDEFB", ec="#2196F3", lw=2)
+        "#E9D5FF", ec="#7C3AED", lw=2)
 
     # ── B3 path (lower branch) ────────────────────────────────────
     X_LLM = X_FORK + 1.15 + BW/2    # LLM box same x as B2 box
     box(X_LLM, Y_B3,
         "DeepSeek-R1\nReasoning\nkeep / reject each gene\n-> selects 17 BRCA-specific",
-        "#FFCDD2", ec="#E53935", lw=2)
+        "#D1FAE5", ec="#14B8A6", lw=2)
 
     # causal annotation badge
     ax.text(X_LLM + BW/2 + 0.15, Y_B3 + 0.25,
             "⚡ CAUSAL\nSTEP", ha="left", va="center",
-            fontsize=12, fontweight="bold", color="#B71C1C",
-            bbox=dict(boxstyle="round,pad=0.18", fc="#FFEBEE", ec="#E53935", lw=1.3))
+            fontsize=12, fontweight="bold", color="#0F766E",
+            bbox=dict(boxstyle="round,pad=0.18", fc="#ECFDF5", ec="#14B8A6", lw=1.3))
 
     # arrow: LLM → B3 retrain
     X_B3_TRAIN = X_LLM + BW/2 + 1.1 + BW/2    # ≈ 15.55
     arrow(X_LLM + BW/2, Y_B3, X_B3_TRAIN - BW/2, Y_B3,
-                    color="#E53935", label="17 LLM-selected", label_side="top")
+                    color="#14B8A6", label="17 LLM-selected", label_side="top")
     box(X_B3_TRAIN, Y_B3,
                 "B3: Mamba\nRetrain\n(17 LLM-reasoned\nBRCA-specific genes)",
-        "#FFCCBC", ec="#E53935", lw=2)
+        "#A7F3D0", ec="#10B981", lw=2)
 
     # ── Comparison output box ─────────────────────────────────────
     X_CMP = X_B3_TRAIN
@@ -134,9 +134,9 @@ def fig_pipeline():
         "#C8E6C9", ec="#388E3C", lw=2.2, fs=12.5)
     # arrows from B2 and B3 to comparison
     arrow(X_B2_1, Y_B2 - BH/2, X_CMP, Y_CMP + BH/2 + 0.1,
-          color="#2196F3", lw=1.3)
+            color="#7C3AED", lw=1.3)
     arrow(X_B3_TRAIN, Y_B3 - BH/2, X_CMP, Y_CMP + BH/2,
-          color="#E53935", lw=1.3)
+            color="#10B981", lw=1.3)
 
     # B1 baseline note
     ax.text(X_CMP, Y_CMP - BH/2 - 0.18,
@@ -147,10 +147,10 @@ def fig_pipeline():
     ax.text(0.15, Y_MAIN + BH/2 + 0.22, "① Data & Feature Extraction",
             fontsize=13, fontweight="bold", color="#1A237E", va="bottom")
     ax.text(X_FORK + 1.0, Y_B2 + BH/2 + 0.25, "② B2 — Mamba Only",
-            fontsize=13, fontweight="bold", color="#1565C0", va="bottom")
+            fontsize=13, fontweight="bold", color="#7C3AED", va="bottom")
     ax.text(X_FORK + 1.0, Y_B3 + BH/2 + 0.25,
             "③ B3 — Mamba + LLM Reasoning (causal)",
-            fontsize=13, fontweight="bold", color="#B71C1C", va="bottom")
+            fontsize=13, fontweight="bold", color="#0F766E", va="bottom")
 
     ax.set_title(
         "Mamba-SSM + LLM Reasoning Pipeline for BRCA Gene Biomarker Discovery\n"
@@ -178,15 +178,14 @@ def fig_comparison():
     x = np.arange(len(labels))
     w = 0.25
     fig, ax = plt.subplots(figsize=(9, 5))
-    # Light-to-dark shading: higher score -> darker color
-    norm = Normalize(vmin=0.6, vmax=1.0)
-    acc_colors = [plt.cm.Blues(0.30 + 0.65 * norm(v)) for v in acc]
-    f1_colors  = [plt.cm.Purples(0.30 + 0.65 * norm(v)) for v in f1]
-    auc_colors = [plt.cm.Greens(0.30 + 0.65 * norm(v)) for v in auc]
+    # Palette matched to the attached screenshot: blue, muted blue, green
+    acc_colors = ["#4C72B0"] * len(acc)
+    f1_colors  = ["#7BA0B8"] * len(f1)
+    auc_colors = ["#8FB27A"] * len(auc)
 
-    b1 = ax.bar(x - w, acc, w, label="Accuracy", color=acc_colors, edgecolor="white")
-    b2 = ax.bar(x,     f1,  w, label="F1 (weighted)", color=f1_colors, edgecolor="white")
-    b3 = ax.bar(x + w, auc, w, label="AUC-ROC", color=auc_colors, edgecolor="white")
+    b1 = ax.bar(x - w, acc, w, label="Accuracy", color=acc_colors, edgecolor="#3d4f6f", linewidth=1.0)
+    b2 = ax.bar(x,     f1,  w, label="F1 (weighted)", color=f1_colors, edgecolor="#5d7b92", linewidth=1.0)
+    b3 = ax.bar(x + w, auc, w, label="AUC-ROC", color=auc_colors, edgecolor="#728f62", linewidth=1.0)
 
     for bars in [b1, b2, b3]:
         for bar in bars:
@@ -203,8 +202,8 @@ def fig_comparison():
     ax.legend(fontsize=9)
     ax.yaxis.grid(True, alpha=0.4)
     ax.set_axisbelow(True)
-    fig.patch.set_facecolor("#f8fafc")
-    ax.set_facecolor("#f8fafc")
+    fig.patch.set_facecolor("#ffffff")
+    ax.set_facecolor("#ffffff")
 
     plt.tight_layout()
     path = f"{FIG_DIR}/fig2_comparison.png"
