@@ -2,7 +2,7 @@
 
 ## System Pipeline Figure
 
-![System Pipeline](results/figures/f1g_pipeline1.png)
+![System Pipeline](results/figures/fig_pipeline.png)
 
 ## Summary
 
